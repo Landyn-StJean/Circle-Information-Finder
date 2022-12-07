@@ -1,0 +1,138 @@
+#Prints Information On A Circle By Using Only One Peice Of Information.
+from math import pi, sqrt
+
+def Main():
+    print("Hi, Welcome To The Circle Information Finder!\n")
+    AskAboutDecimalAmount()
+
+def AskAboutDecimalAmount():
+    global Decimal_Points
+    Decimal_Points = input('How Many Decimal Points Would You Like To Be Displayed? (Put "all" To Display All Decimal Points): ')
+    str(Decimal_Points)
+    Decimal_Is_Number = Decimal_Points.isnumeric()
+    if Decimal_Is_Number:
+        Decimal_Points = int(Decimal_Points)
+        WhatInformation()
+        return
+    if Decimal_Points == "all":
+        WhatInformation()
+        return
+    else:
+        print("Sorry, That Answer Doesn't Meet Our Requirements.")
+        AskAboutDecimalAmount()
+
+def WhatInformation():
+    global InformationType
+    InformationType = input("\nr = Radius \nd = Diameter \nc = Circumference \na = Area \n\nWhat Type Of Information Do You Have?: ")
+    InformationType = str(InformationType)
+    if InformationType == "r":
+        FindOtherInformation()
+        return
+    if InformationType == "c":
+        FindOtherInformation()
+        return
+    if InformationType == "d":
+        FindOtherInformation()
+        return
+    if InformationType == "a":
+        FindOtherInformation()
+        return
+    else:
+        print("Sorry, That Answer Doesn't Meet Our Requirements.")
+        WhatInformation()
+
+def FindOtherInformation():
+    if InformationType == "r":
+        Radius = input("What Is The Radius?: ")
+        if IsFloat(Radius):
+            Radius = float(Radius)
+        else:
+            print("Sorry, That Answer Doesn't Meet Our Requirements.")
+            FindOtherInformation()
+    if InformationType == "d":
+        Diameter = input("What Is The Diameter?: ")
+        if IsFloat(Diameter):
+            Diameter = float(Diameter)
+        else:
+            print("Sorry, That Answer Doesn't Meet Our Requirements.")
+            FindOtherInformation()
+    if InformationType == "c":
+        Circumference = input("What Is The Circumference?: ")
+        if IsFloat(Circumference):
+            Circumference = float(Circumference)
+        else:
+            print("Sorry, That Answer Doesn't Meet Our Requirements.")
+            FindOtherInformation()
+    if InformationType == "a":
+        Area = input("What Is The Area?: ")
+        if IsFloat(Area):
+            Area = float(Area)
+        else:
+            print("Sorry, That Answer Doesn't Meet Our Requirements.")
+            FindOtherInformation()
+
+#Calculates And Prints The Other Information
+    if InformationType == "r":
+        Diameter = Radius * 2
+        Circumference = Diameter * pi
+        Area = Radius ** 2 * pi
+    if InformationType == "d":
+        Radius = Diameter / 2
+        Circumference = Diameter * pi
+        Area = Radius ** 2 * pi
+    if InformationType == 'a':
+        Radius = Area / pi
+        Radius = sqrt(Radius)
+        Diameter = Radius * 2
+        Circumference = Diameter * pi
+    if InformationType == "c":
+        Diameter = Circumference / pi
+        Radius = Diameter / 2
+        Area = Radius ** 2 * pi
+    print("The Radius Is " + DoRounding(Radius))
+    print("The Diameter Is " + DoRounding(Diameter))
+    print("The Circumference Is " + DoRounding(Circumference))
+    print("The Area Is " + DoRounding(Area) + "\n")
+    CheckAgain()
+
+def CheckAgain():
+    Again = input("Do You Want To Find Information For Another? (y/n): ")
+    if Again == "y":
+        Main()
+    if Again == "n":
+        print("Okay.")
+        return
+    if Again != "y" or "n":
+        print("Sorry, That Answer Doesn't Meet Our Requirements.")
+        CheckAgain()
+
+def IsFloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+def DoRounding(Information):
+    error = 0
+    Information = str(Information)
+    Decimal_Point = Information.find(".")
+    for digit in Information[Decimal_Point+1:len(Information)]:
+        if digit != "0":
+            error = 1
+            break
+    if error == 0:
+        Information = float(Information)
+        Information = int(Information)
+        return str(Information)
+    Information = float(Information)
+    if Decimal_Points == "all":
+        return str(Information)
+    if Decimal_Points == 0:
+        Information = round(Information)
+        return str(Information)
+    else:
+        Information = round(Information, Decimal_Points)
+        return str(Information)
+
+Main()
